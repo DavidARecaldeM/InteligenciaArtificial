@@ -27,7 +27,7 @@
         <p>Elegimos la columna número 5 y sacamos las palabras repetidas con la ayuda de chatGPT y las rectificamos manualmente <br> e hicimos lo mismo con las palabras únicas (que no se repetían)
             Luego último hicimos la suma de las palabras repetidas y también sacamos <br> el número de palabras únicas y por último hicimos un gráfico circular 3D con los números de las palabras repetidas</p>
     </div>
- i   <dv class="contenedor">
+    <dv class="contenedor">
         <h2>Cantidad de veces que se repiten las inteligencias artificiales</h2>
         <img src="Imagenes/numero de repeticiones.jpeg" alt="" width="800px">
         <p>de manera manual tome los nombres de ias distintas y luego conté cuantas veces se repetía cada una, para al final juntar los valores y generar un anillo con Excel donde podemos ver que lo que vas se repite es chatgpt</p>
@@ -73,5 +73,53 @@
          tambien las diferencias en tiempos que se demora en entrenarla cuando solo hay una entrada y cuando hay muchas mas, me doy cuenta que cuando hay mas entradas 
         este proceso toma mas tiempo pero a su vez puede ser mas exacto
     </p>
+    <h3>Tabla comparativa de los diferentes algoritmos para resolver laberintos</h3>
+    <table border="1">
+        <tr>
+          <th>Algoritmo</th>
+          <th>StackFrontier</th>
+          <th>QueueFrontier</th>
+        </tr>
+        <tr>
+          <td>Labertinto 1</td>
+          <td>227</td>
+          <td>331</td>
+        </tr>
+        <tr>
+          <td>Labertinto 2</td>
+          <td>265</td>
+          <td>319</td>
+        </tr>
+      </table>
+
+    <h2>Explicacion de cada linea del codigo del punto numero 4</h2>
+      <p><code>import tensorflow as tf</code>: Se importa la biblioteca TensorFlow para la creación y el entrenamiento del modelo de machine learning.</p>
+    <p><code>import numpy as np</code>: Se importa NumPy, una biblioteca para manejar arreglos numéricos de manera eficiente.</p>
+    <p><code>celsius = np.array([-40, -10, 0, 8, 15, 22, 38], dtype=float)</code>: Se crea un arreglo de valores en grados Celsius.</p>
+    <p><code>fahrenheit = np.array([-40, 14, 32, 46, 59, 72, 100], dtype=float)</code>: Se crea un arreglo de valores correspondientes en grados Fahrenheit.</p>
+
+    <p><code>oculta1 = tf.keras.layers.Dense(units=3, input_shape=[1])</code>: Se crea una capa oculta con 3 neuronas, que recibe como entrada un único valor (grados Celsius).</p>
+    <p><code>oculta2 = tf.keras.layers.Dense(units=3)</code>: Se define una segunda capa oculta con 3 neuronas, conectada a la primera capa oculta.</p>
+    <p><code>salida = tf.keras.layers.Dense(units=1)</code>: Se define la capa de salida con una sola neurona, que devolverá el valor en grados Fahrenheit.</p>
+    <p><code>modelo = tf.keras.Sequential([oculta1, oculta2, salida])</code>: Se define el modelo de forma secuencial, conectando las capas ocultas y la capa de salida.</p>
+    <p><code>modelo.compile(optimizer=tf.keras.optimizers.Adam(0.1), loss='mean_squared_error')</code>: Se compila el modelo, definiendo el optimizador como Adam con una tasa de aprendizaje de 0.1 y la función de pérdida como error cuadrático medio.</p>    <p><code>historial = modelo.fit(celsius, fahrenheit, epochs=1000, verbose=False)</code>: El modelo se entrena con los datos de entrada y salida (grados Celsius y Fahrenheit) durante 1000 épocas. El argumento <code>verbose=False</code> desactiva la salida de información durante el entrenamiento.</p>
+    <p><code>print("Modelo entrenado!")</code>: Imprime un mensaje indicando que el modelo ha sido entrenado.</p>
+    <p><code>import matplotlib.pyplot as plt</code>: Se importa Matplotlib, una biblioteca utilizada para generar gráficos.</p>
+    <p><code>plt.xlabel("# Epoca")</code>: Define la etiqueta del eje X como "Época".</p>
+    <p><code>plt.ylabel("Magnitud de pérdida")</code>: Define la etiqueta del eje Y como "Magnitud de pérdida".</p>
+    <p><code>plt.plot(historial.history["loss"])</code>: Grafica la evolución de la función de pérdida durante el entrenamiento.</p>
+    <p><code>print("Hagamos una predicción!")</code>: Imprime un mensaje indicando que se va a realizar una predicción.</p>
+    <p><code>resultado = modelo.predict([100.0])</code>: Utiliza el modelo entrenado para predecir el valor en Fahrenheit correspondiente a 100 grados Celsius.</p>
+    <p><code>print("El resultado es " + str(resultado) + " fahrenheit!")</code>: Imprime el resultado de la predicción, mostrando el valor predicho en grados Fahrenheit.</p>
+    <p><code>print("Variables internas del modelo")</code>: Imprime un mensaje indicando que se van a mostrar los pesos internos del modelo.</p>
+    <p><code>print(oculta1.get_weights())</code>: Muestra los pesos aprendidos por la primera capa oculta.</p>
+    <p><code>print(oculta2.get_weights())</code>: Muestra los pesos aprendidos por la segunda capa oculta.</p>
+    <p><code>print(salida.get_weights())</code>: Muestra los pesos aprendidos por la capa de salida.</p>
+
+
+    
+      
+</body>
+
 </body>
 </html>
