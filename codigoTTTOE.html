@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Código Comentado</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        pre { background-color: #eee; padding: 10px; border-radius: 5px; }
+        .comment { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Código Comentado</h1>
+    <pre>
+import math  # <span class="comment">Importa la librería matemática</span>
+
+# <span class="comment">Definir los jugadores</span>
+HUMANO = -1  # <span class="comment">Representa al jugador humano</span>
+COMPUTADORA = 1  # <span class="comment">Representa a la computadora</span>
+
+# <span class="comment">Crear el tablero vacío</span>
+tablero = [
+    [0, 0, 0],  # <span class="comment">Fila 0</span>
+    [0, 0, 0],  # <span class="comment">Fila 1</span>
+    [0, 0, 0]   # <span class="comment">Fila 2</span>
+]
+
+# <span class="comment">Función para verificar si hay un ganador</span>
+def ganador(tablero, jugador):
+    # <span class="comment">Lista de combinaciones ganadoras</span>
+    win_state = [
+        [tablero[0][0], tablero[0][1], tablero[0][2]],  # <span class="comment">Fila 0</span>
+        [tablero[1][0], tablero[1][1], tablero[1][2]],  # <span class="comment">Fila 1</span>
+        [tablero[2][0], tablero[2][1], tablero[2][2]],  # <span class="comment">Fila 2</span>
+        [tablero[0][0], tablero[1][0], tablero[2][0]],  # <span class="comment">Columna 0</span>
+        [tablero[0][1], tablero[1][1], tablero[2][1]],  # <span class="comment">Columna 1</span>
+        [tablero[0][2], tablero[1][2], tablero[2][2]],  # <span class="comment">Columna 2</span>
+        [tablero[0][0], tablero[1][1], tablero[2][2]],  # <span class="comment">Diagonal de izquierda a derecha</span>
+        [tablero[2][0], tablero[1][1], tablero[0][2]],  # <span class="comment">Diagonal de derecha a izquierda</span>
+    ]
+    # <span class="comment">Devuelve True si el jugador ha completado una combinación ganadora</span>
+    return [jugador, jugador, jugador] in win_state
+
+# <span class="comment">Función para verificar si el tablero está lleno</span>
+def tablero_lleno(tablero):
+    for fila in tablero:  # <span class="comment">Revisa cada fila del tablero</span>
+        if 0 in fila:  # <span class="comment">Si encuentra un espacio vacío (0), devuelve False</span>
+            return False
+    return True  # <span class="comment">Si no hay espacios vacíos, devuelve True</span>
+
+# <span class="comment">Evaluar el estado del tablero y determinar si hay un ganador</span>
+def evaluar(tablero):
+    if ganador(tablero, COMPUTADORA):  # <span class="comment">Verifica si la computadora ha ganado</span>
+        return 1  # <span class="comment">Retorna 1 si la computadora gana</span>
+    elif ganador(tablero, HUMANO):  # <span class="comment">Verifica si el humano ha ganado</span>
+        return -1  # <span class="comment">Retorna -1 si el humano gana</span>
+    else:
+        return 0  # <span class="comment">Retorna 0 si no hay ganadores</span>
+
+# <span class="comment">Algoritmo Minimax para determinar el mejor movimiento</span>
+def minimax(tablero, profundidad, jugador):
+    if ganador(tablero, COMPUTADORA):  # <span class="comment">Verifica si la computadora ha ganado</span>
+        return 1  # <span class="comment">Retorna 1</span>
+    if ganador(tablero, HUMANO):  # <span class="comment">Verifica si el humano ha ganado</span>
+        return -1  # <span class="comment">Retorna -1</span>
+    if tablero_lleno(tablero):  # <span class="comment">Verifica si el tablero está lleno</span>
+        return 0  # <span class="comment">Retorna 0 si está lleno</span>
+
+    if jugador == COMPUTADORA:  # <span class="comment">Si es el turno de la computadora</span>
+        mejor = -math.inf  # <span class="comment">Inicializa el mejor valor en negativo infinito</span>
+        for i in range(3):  # <span class="comment">Revisa cada fila</span>
+            for j in range(3):  # <span class="comment">Revisa cada columna</span>
+                if tablero[i][j] == 0:  # <span class="comment">Si la celda está vacía</span>
+                    tablero[i][j] = COMPUTADORA  # <span class="comment">Coloca la marca de la computadora</span>
+                    mejor = max(mejor, minimax(tablero, profundidad + 1, HUMANO))  # <span class="comment">Evalúa el movimiento</span>
+                    tablero[i][j] = 0  # <span class="comment">Deshace el movimiento</span>
+        return mejor  # <span class="comment">Retorna el mejor valor encontrado</span>
+    else:  # <span class="comment">Si es el turno del humano</span>
+        peor = math.inf  # <span class="comment">Inicializa el peor valor en positivo infinito</span>
+        for i in range(3):  # <span class="comment">Revisa cada fila</span>
+            for j in range(3):  # <span class="comment">Revisa cada columna</span>
+                if tablero[i][j] == 0:  # <span class="comment">Si la celda está vacía</span>
+                    tablero[i][j] = HUMANO  # <span class="comment">Coloca la marca del humano</span>
+                    peor = min(peor, minimax(tablero, profundidad + 1, COMPUTADORA))  # <span class="comment">Evalúa el movimiento</span>
+                    tablero[i][j] = 0  # <span class="comment">Deshace el movimiento</span>
+        return peor  # <span class="comment">Retorna el peor valor encontrado</span>
+
+# <span class="comment">Función para determinar el movimiento de la computadora</span>
+def movimiento_computadora(tablero):
+    mejor_movimiento = None  # <span class="comment">Inicializa la mejor posición como None</span>
+    mejor_valor = -math.inf  # <span class="comment">Inicializa el mejor valor en negativo infinito</span>
+    for i in range(3):  # <span class="comment">Revisa cada fila</span>
+        for j in range(3):  # <span class="comment">Revisa cada columna</span>
+            if tablero[i][j] == 0:  # <span class="comment">Si la celda está vacía</span>
+                tablero[i][j] = COMPUTADORA  # <span class="comment">Coloca la marca de la computadora</span>
+                valor = minimax(tablero, 0, HUMANO)  # <span class="comment">Evalúa el movimiento</span>
+                tablero[i][j] = 0  # <span class="comment">Deshace el movimiento</span>
+                if valor > mejor_valor:  # <span class="comment">Si el valor encontrado es mejor</span>
+                    mejor_valor = valor  # <span class="comment">Actualiza el mejor valor</span>
+                    mejor_movimiento = (i, j)  # <span class="comment">Guarda la mejor posición</span>
+    return mejor_movimiento  # <span class="comment">Retorna la mejor posición encontrada</span>
+
+# <span class="comment">Función para imprimir el estado actual del tablero en la consola</span>
+def imprimir_tablero(tablero):
+    for fila in tablero:  # <span class="comment">Revisa cada fila</span>
+        print(fila)  # <span class="comment">Imprime la fila</span>
+
+# <span class="comment">Función principal para simular el juego</span>
+def juego():
+    while True:  # <span class="comment">Bucle del juego</span>
+        imprimir_tablero(tablero)  # <span class="comment
