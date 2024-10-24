@@ -275,6 +275,29 @@ class And(Sentence):
 
     <p>el codigo anterior proporciona una implementación de un sistema de lógica proposicional que permite crear y evaluar sentencias lógicas, así como verificar si un conjunto de conocimientos implica una sentencia.</p>
 
+
+<h4>Explicacion del codigo del punto numero 6</h4>
+<code>
+    # Importar todas las clases y funciones del módulo 'logic'
+from logic import *
+
+# Definir símbolos lógicos que representarán proposiciones
+lluvia = Symbol("lluvia")        # Representa la proposición "lluvia"
+BBC = Symbol("BBC")              # Representa la proposición "BBC"
+Unimayor = Symbol("Unimayor")    # Representa la proposición "Unimayor"
+
+# Definir el conocimiento lógico en forma de conjunción
+knowledge = And(
+    Implication(Not(lluvia), BBC),  # Si no hay lluvia, entonces hay BBC
+    Or(BBC, Unimayor),               # Hay BBC o hay Unimayor (o ambos)
+    Not(And(BBC, Unimayor)),         # No puede haber BBC y Unimayor al mismo tiempo
+    Unimayor                         # Debe haber Unimayor
+)
+
+# Comprobar si el conocimiento implica que hay lluvia
+print(model_check(knowledge, lluvia))
+</code>
+        
 </body>
 
 </body>
